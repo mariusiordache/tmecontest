@@ -1,0 +1,215 @@
+.deal {
+	padding: 20px 20px 35px 20px;
+	font-size: 18px;
+	color: @rfcTextColor;
+}
+
+.info {
+	color: @rfcInfoColor;
+}
+
+.deal-odd {background: @oddColor;}
+.deal-even {background: @evenColor;}
+
+.deal-left {float: left; width: 200px;}
+.deal-right {float: left; width: 480px;}
+
+.deal-track {
+	border: 1px solid @rfcDropdownBorderColor;
+	border-right: 0px;
+	border-top: 0px;
+	position: relative;
+}
+
+.deal-details {
+	list-style-type: none;
+	margin-left: -18px;
+}
+
+.deal-details > li {
+	margin-bottom: 20px;
+	padding-left: 49px;
+	height: 34px; 
+	line-height: 34px;
+	position: relative;
+}
+
+.deal-details > li.tag-reasons {
+	line-height: 18px;
+	height: auto;
+}
+
+.deal-tag-reason > label {
+	cursor: default;
+	margin-bottom: 0px;
+	color: @rfcInfoColor;
+}
+
+.tag-reason-selected {
+	background: yellow;
+}
+
+.deal-details > li.hotel {
+	line-height: 18px;
+}
+
+.deal-details > li.hotel > .deal-icon {
+}
+
+.deal-icon {
+	width: 34px;
+	height: 34px;
+	border: 1px solid @rfcDropdownBorderColor;
+	.border-radius(20px);
+	display: block;
+	background: @white;
+	position: absolute;
+	left: 0px;
+}
+
+.deal-more {
+	display: inline-block;
+	position: absolute;
+	left: 0px;
+	font-size: 12px;
+	line-height: 18px;
+	padding: 0px 13px;
+	color: #FF9900;
+	border: 1px solid @rfcDropdownBorderColor;
+	.border-radius(5px);
+	background: @white;
+	cursor: pointer;
+}
+
+.separator-label {
+	height: 7px;
+	border-bottom: 1px solid @rfcDropdownBorderColor;
+	position: relative;
+	margin-left: -31px;
+	margin-bottom: 20px;
+}
+.separator-label > span {
+	height: 14px;
+	line-height: 14px;
+	font-size: 14px;
+	display: inline-block;
+	padding: 0px 10px;
+	width: 100%;
+	position: absolute;
+	left: 32px;
+	color: @rfcInfoColor;
+}
+
+.deal-even .separator-label > span {
+	background: @evenColor;
+}
+.deal-odd .separator-label > span {
+	background: @oddColor;
+}
+
+.deal-price-action {
+	position: absolute;
+	height: 45px;
+	bottom: -22px;
+	right: 0px;
+	padding: 0px 0px 0px 20px;
+}
+
+.deal-even .deal-price-action {	
+	background: @evenColor;
+}
+
+.deal-odd .deal-price-action {	
+	background: @oddColor;
+}
+
+.deal-price {font-size: 26px; float: right;}
+.orange {color: #ff8100;}
+
+.deal-action {
+	display: block;
+	text-decoration: none;
+	float: right;
+	margin-left: 15px;
+}
+.deal-price-main, .deal-price-secondary {
+	display: block;
+	font-weight: bold;
+}
+.deal-price-secondary {
+	color: @rfcTextColor;
+	font-size: 12px;
+}
+.deal-price-main > span, .deal-price-secondary > span {font-weight: normal;}
+
+.small {font-size: 14px;}
+
+.stars {margin-left: 10px;}
+.star {
+	display: inline-block;
+	background: url(http://www.cautavacante.ro/assets/img/sprite.png) no-repeat 0px -90px;
+	width: 10px;
+	height: 10px;
+}
+
+.deal-perks {
+	list-style-type: none;
+}
+.deal-perks > li {
+	line-height: 20px;
+	margin-bottom: 5px;
+	font-size: 16px;
+	padding-left: 20px;
+	position: relative;
+}
+.deal-perks > li > .bullet {
+	display: block;
+	position: absolute; 
+	left: 0px;
+	font-size: 14px;
+	color: @rfcInfoColor;
+}
+
+.hotel-icon > span {
+	.bgImage('sprite.png', 0px, -8px, no-repeat);
+	width: 21px;
+	height: 16px;
+	display: block;
+	margin: 9px 6px 9px 7px;
+}	
+
+.transport-icon > span {	
+	.bgImage('sprite.png', 0px, -103px, no-repeat);
+	width: 25px;
+	height: 17px;
+	display: block;
+	margin: 8px 5px 8px 5px;
+}
+
+.calendar-icon > span {	
+	.bgImage('sprite.png', 0px, -125px, no-repeat);
+	width: 17px;
+	height: 16px;
+	display: block;
+	margin: 9px 8px 9px 9px;
+}
+
+.perk-icon-tickets > span { 
+	.bgImage('sprite.png', 0px, -145px, no-repeat);
+	width: 22px;
+	height: 27px;
+	display: block;
+	margin: 3px 6px 4px 6px;	
+}
+
+.deal-details li.moreContent {
+	max-height: 0px;
+	overflow: hidden;
+	transition: max-height 2s ease-out;
+	-webkit-transition: max-height 2s ease-out;
+}
+
+.deal-details li.moreContent.visible {
+	height: auto;
+	max-height: 500px;
+}

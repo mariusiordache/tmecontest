@@ -1,0 +1,8 @@
+{
+    "require": {
+        "elasticsearch/elasticsearch": "~1.0",
+        "mustangostang/spyc": "0.5.1",
+        "phpunit/phpunit": "4.0.*",
+        "phpmailer/phpmailer": "dev-master"
+    }
+}

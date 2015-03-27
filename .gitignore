@@ -1,0 +1,42 @@
+# ignore folders with dynamic content #
+# /index.php
+/cache/
+/application/logs/
+/application/cache/
+/tools/
+/tmp/
+/logs
+/certs/
+/vendor
+/application/config/production/database.php
+/launchers/*/project_template*
+migration_status.json
+*#
+# wherever they are, ignore them #
+*.log
+*.7z
+*.dmg
+*.gz
+*.iso
+*.rar
+*.tar
+*.zip
+# *.htaccess
+.*
+!.gitignore
+!.htaccess
+!.project
+!.settings
+!.classpath
+*.sublime-project
+*.sublime-workspace
+.project
+*~
+resources
+/nbproject
+config.yml
+local.properties
+composer.lock
+composer.phar
+launcher_templates
+application/nodejs/node_modules

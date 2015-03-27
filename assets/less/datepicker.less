@@ -1,0 +1,84 @@
+.datepicker {
+	width: 400px;
+	background: #FFF;
+	position: absolute;
+	z-index: 1001;
+	border: 1px solid @rfcDropdownBorderColor;	
+	.border-radius(@borderRadiusSmall);
+	.box-shadow(0 5px 10px rgba(0,0,0,.2));
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+.datepicker .column {
+	height: 200px;
+	overflow: auto;
+	.opacity(80);
+}
+
+.datepicker .column.highlightColumn > ul > li > a {
+	color: @rfcLinkColor;
+	.opacity(100);
+}
+
+.datepicker .column > ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 10px;	
+}
+
+.datepicker .days > ul > li > a, .datepicker .years > ul > li > a {
+	text-align: center;
+	padding: 3px 10px;
+}
+
+.datepickerToolbar {
+	background: #F1F1F1;
+	text-align: right;	
+	padding: 5px 10px;
+	border-top: 1px solid @rfcDropdownBorderColor;
+}
+
+.invisible {
+	.opacity(0);
+}
+
+// Arrows
+.datepicker-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.datepicker {
+  &.top .datepicker-arrow {
+    bottom: 0;
+    left: 50%;
+    margin-left: -@tooltipArrowWidth;
+    border-width: @tooltipArrowWidth @tooltipArrowWidth 0;
+    border-top-color: @tooltipArrowColor;
+  }
+  &.right .datepicker-arrow {
+    top: 50%;
+    left: 0;
+    margin-top: -@tooltipArrowWidth;
+    border-width: @tooltipArrowWidth @tooltipArrowWidth @tooltipArrowWidth 0;
+    border-right-color: @tooltipArrowColor;
+  }
+  &.left .datepicker-arrow {
+    top: 50%;
+    right: 0;
+    margin-top: -@tooltipArrowWidth;
+    border-width: @tooltipArrowWidth 0 @tooltipArrowWidth @tooltipArrowWidth;
+    border-left-color: @tooltipArrowColor;
+  }
+  &.bottom .datepicker-arrow {
+    top: 0;
+    left: 50%;
+    margin-left: -@tooltipArrowWidth;
+    border-width: 0 @tooltipArrowWidth @tooltipArrowWidth;
+    border-bottom-color: @tooltipArrowColor;
+  }
+}

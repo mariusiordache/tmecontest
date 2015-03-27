@@ -1,0 +1,96 @@
+// URLs
+// --------------------------------------------
+@imgURL: "../img/";
+
+
+// COLORS
+
+@darkBlueBackground: #00637d;
+
+@rfcLinkColor: #1896B6;
+@rfcTextColor: #26211E;
+@rfcInfoColor: #828282;
+
+@rfcDropdownHoverBg: #f1f1f1;
+@rfcDropdownHoverColor: #000;
+@rfcDropdownBorderColor: #cdd1d2;
+
+@inputBorderRadius: 2px;
+
+@oddColor: #FFF;
+@evenColor: #F1F1F1;
+
+// BORDERS
+
+@borderRadiusCustom: 5px;
+
+
+// Mixins 
+.bgImage(@image, @left: 0, @top: 0, @repeat: no-repeat) {
+	background: url("@{imgURL}@{image}") @repeat @left @top;
+}
+
+.box-shadow-double(@first, @second) {
+  -webkit-box-shadow: @first, @second;
+     -moz-box-shadow: @first, @second;
+          box-shadow: @first, @second;
+}
+
+.insetButton(@outerBackground, @background) {	
+	.box-shadow-double(1px 1px 1px darken(@outerBackground, 10%) inset, -1px 1px 1px @background);
+}
+
+.inputStyle(@outerBackground: @black, @outerShadow: @white, @background: @inputBackground) {	
+	.border-radius(@inputBorderRadius);
+	border: 1px solid @inputBorder;	
+	background-color: @background;		
+	@innerShadow: darken(@outerBackground, 60%);	
+	box-shadow: 1px 1px 1px rgba(red(@innerShadow), green(@innerShadow), blue(@innerShadow), .095) inset, -1px 1px 1px @outerShadow;	
+}
+
+.inputStyleSelected(@outerBackground: @black, @outerShadow: @white) {
+	.inputStyle(@outerBackground, @outerShadow, @dropdownLinkBackgroundHover);
+}
+
+.optionLinkDial() {
+	
+}
+
+// DEFINE MIXINS SO YOU CAN ALSO USE THEM INSIDE BOOTSTRAP CLASSES
+
+.optionLink() {
+	display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: @baseLineHeight;
+    color: @dropdownLinkColor;
+    white-space: nowrap;
+}
+
+.optionLinkHover() {
+	text-decoration: none;
+	color: @dropdownLinkColorHover;
+	background: @dropdownLinkBackgroundHover;
+  // #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
+}
+
+.optionLinkActive() {
+	.inputStyleSelected;
+	color: @dropdownLinkColorActive;
+	text-decoration: none;
+	outline: 0;
+	// #gradient > .vertical(@dropdownLinkBackgroundActive, darken(@dropdownLinkBackgroundActive, 5%));
+}
+
+.optionLinkDisabled() {
+	color: @grayLight;
+}
+
+.optionLinkDisabledHover {	
+	text-decoration: none;
+	background-color: transparent;
+	background-image: none; // Remove CSS gradient
+	.reset-filter();
+	cursor: default;
+}

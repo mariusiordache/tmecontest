@@ -1,0 +1,19 @@
+globals:
+    system_path: /www/CIKMS/system
+constants:
+    environment: development
+    kmspath: /www/CIKMS/KMS
+config:
+    base_url: http://dev0.androidmakeup.local/
+    cookie_domain: androidmakeup.local
+elasticsearch:
+    host: localhost
+    port: 9200
+    index_name: searchclient
+db:
+    default:
+        hostname: localhost
+        username: androidmakeup
+        password: adf7df55
+        database: androidmakeup
+    

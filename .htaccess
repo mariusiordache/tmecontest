@@ -1,0 +1,45 @@
+Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+Header set Pragma "no-cache"
+
+php_value suhosin.perdir pr
+
+php_value suhosin.post.max_array_depth 100
+php_value suhosin.post.max_array_index_length 128
+php_value suhosin.post.max_name_length 128
+php_value suhosin.post.max_value_length	2000000
+php_value suhosin.post.max_totalname_length 512
+php_value suhosin.post.max_vars 1000
+	      
+php_value suhosin.request.max_array_depth 100
+php_value suhosin.request.max_array_index_length 128
+php_value suhosin.request.max_name_length 128
+php_value suhosin.request.max_value_length 2000000
+php_value suhosin.request.max_totalname_length 512
+php_value suhosin.request.max_vars 1000
+
+ 
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^(homepage(/index)?|index(\.php)?)/?$ / [L,R=301]
+RewriteRule ^(.*)/index/?$ $1 [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^resources/([0-9]+)/([a-z0-9]+)/([0-9]+)/([0-9]+)/([0-9]+)/files.zip /api/resource/download?resource_id=$3&config_id=$5&hash=$2 [L]
+
+# Removes trailing slashes (prevents SEO duplicate content issues)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ $1 [L,R=301]
+
+# Enforce NO www
+RewriteCond %{HTTP_HOST} ^www\.(.+)$
+RewriteRule ^(.*)$ http://%1/$1 [L,R=301]
+
+# Checks to see if the user is attempting to access a valid file,
+# such as an image or css document, if this isn't true it sends the
+# request to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
+
+

@@ -1,0 +1,11 @@
+/* */
+
+.photoThumb {height: 110px;}
+.photoActions {height: 30px; text-align: left; line-height: 30px;}
+.photoActions a {display: inline; font-size: 1.5em; color: rgb(190, 184, 184); margin-right: 10px;}
+.photoActions a:hover {color: #000;}
+.photoActions .remove {float: right;}
+
+.photoMatch {opacity: 0.3;}
+
+.subNavHeader {font-size: 16px; padding: 20px 20px 10px 20px;}

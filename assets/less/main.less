@@ -1,0 +1,156 @@
+body {
+	.bgImage('background.jpg'); 
+	margin: 0px; 
+	padding: 0px; 
+	background-size: 100% auto;
+	-moz-background-size: 100% auto;
+	-webkit-background-size: 100% auto;
+	-moz-background-size: 100% auto;
+	font-family: 'Open Sans', sans-serif;
+	background-attachment: fixed;
+}
+
+
+.selectbox {
+	border: 1px solid @rfcDropdownBorderColor;
+	.border-radius(@inputBorderRadius);
+	box-shadow: 1px 1px 1px #b9c6c8 inset, -1px 1px 1px #FFF;
+	line-height: 24px;
+	position: relative;	
+	font-size: 11px;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.selectbox-trigger {
+	position: relative;
+	padding: 0px 18px 0px 9px;
+	display: block;
+	color: @rfcTextColor;
+}
+
+.selectbox-caret {
+	width: 8px;
+	background: url(http://www.cautavacante.ro/assets/img/sprite.png) no-repeat -70px -135px #FFF;
+	height: 11px;	
+	position: absolute;
+	right: 3px;
+	top: 7px;	
+}	
+
+.selectbox-white {
+	background: #FFF;
+}
+.selectbox-small {
+	min-width: 35px;
+}	
+.selectbox-medium {
+	min-width: 80px;
+}
+
+.selectbox-options {display: none; border: 1px solid #cdd1d2; position: absolute; top: 24px; left: 0px; background: #FFF; list-style-type: none; padding: 0px; margin: 0px;}
+.selectbox-option {line-height: 30px; border-bottom: 1px solid #cdd1d2;}
+.selectbox-option-link {padding: 0px 10px; display: block; color: #666; text-decoration: none; font-size: 12px;}
+.selectbox-option-link:hover {color: #000; background: #F1F1F1;}
+
+#currency-options {width: 80px;}
+
+.btn-rfc-large, .btn-group > .btn-rfc-large {
+	font-size: 17px;
+	font-weight: 700;
+	line-height: 30px;
+}
+
+// BODY
+.mainContent {	
+	.border-top-radius(@borderRadiusLarge);
+}
+.mainContentBody {
+	padding: 20px;
+	background: @white;
+}
+.mainContentRibbon {	
+	.border-top-radius(@borderRadiusLarge);
+	background: #FFF5CC;
+	padding: 20px 20px 10px 20px;
+	position: relative;
+}
+.mainContentSeparator {	
+	height: 5px;
+	background: url(http://www.cautavacante.ro/assets/img/gradients.png) repeat-x 0px -76px;
+}
+.mainContentBottom {	
+	height: 30px;
+	.border-bottom-radius(@borderRadiusLarge);
+	background: @white;
+	margin-bottom: 100px;
+}
+
+
+// UNIFORM VARIOUS CLICKABLE OPTIONS 
+
+//-- REGULAR STATE
+.optionLink { .optionLink() }
+.optionLink:hover, .optionLink:focus { .optionLinkHover() }
+
+//-- ACTIVE STATE
+.option.active > .optionLink,
+.option.active > .optionLink:hover,
+.option.active > .optionLink:focus {
+	.optionLinkActive() 
+}
+
+//-- DISABLED STATE
+.option.disabled > .optionLink,
+.option.disabled > .optionLink:hover,
+.option.disabled > .optionLink:focus {
+	.optionLinkDisabled() 
+}
+
+.option.disabled > .optionLink:hover,
+.option.disabled > .optionLink:focus {
+	.optionLinkDisabledHover() 
+}
+
+// Content overlay 
+
+#content-overlay {
+	position: absolute;
+	width: 0; height: 0;
+	.opacity(0);
+	z-index: 999;
+	background: #000;
+}
+
+#content-overlay.visible {
+	.opacity(100);
+	width: auto;
+	height: 50px;
+}
+
+#content-overlay-inside {
+	background: #383534;
+	.opacity(0);
+	width: 0;
+	height: 0;
+	position: absolute;
+	left: 0px;
+	z-index:998;
+}
+
+#content-overlay.visible {
+	.opacity(80);
+}
+
+#content-overlay {
+	font-size: 30px;
+	color: #FFF5CC;
+	line-height: 45px;	
+	width: 80%;
+	position: absolute;
+}
+
+
+
+.underline {text-decoration: underline;}
+.blue-carret {background: url(http://www.cautavacante.ro/assets/img/sprite.png) no-repeat -37px -124px; display: inline-block; width: 10px;}

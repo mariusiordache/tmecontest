@@ -1,0 +1,87 @@
+@font-face {
+	font-family: 'rfcicomoon';
+	src:url('fonts/rfcicomoon.eot');
+	src:url('fonts/rfcicomoon.eot?#iefix') format('embedded-opentype'),
+		url('fonts/rfcicomoon.woff') format('woff'),
+		url('fonts/rfcicomoon.ttf') format('truetype'),
+		url('fonts/rfcicomoon.svg#rfcicomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'rfcicomoon';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="rfcicon-"] {
+*/
+.rfcicon-cog, .rfcicon-star, .rfcicon-checkmark-circle, .rfcicon-flag, .rfcicon-info, .rfcicon-arrow-left, .rfcicon-arrow-left-2, .rfcicon-arrow-left-3, .rfcicon-arrow-left-4, .rfcicon-pencil, .rfcicon-cancel-circle, .rfcicon-plus-alt, .rfcicon-airplane, .rfcicon-calendar, .rfcicon-menu, .rfcicon-help {
+	font-family: 'rfcicomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.rfcicon-cog:before {
+	content: "\e000";
+}
+.rfcicon-star:before {
+	content: "\e001";
+}
+.rfcicon-checkmark-circle:before {
+	content: "\e002";
+}
+.rfcicon-flag:before {
+	content: "\e003";
+}
+.rfcicon-info:before {
+	content: "\e004";
+}
+.rfcicon-arrow-left:before {
+	content: "\e005";
+}
+.rfcicon-arrow-left-2:before {
+	content: "\e006";
+}
+.rfcicon-arrow-left-3:before {
+	content: "\e007";
+}
+.rfcicon-arrow-left-4:before {
+	content: "\e008";
+}
+.rfcicon-pencil:before {
+	content: "\e009";
+}
+.rfcicon-cancel-circle:before {
+	content: "\e00a";
+}
+.rfcicon-plus-alt:before {
+	content: "\e00b";
+}
+.rfcicon-airplane:before {
+	content: "\e00c";
+}
+.rfcicon-calendar:before {
+	content: "\e00d";
+}
+.rfcicon-menu:before {
+	content: "\e00e";
+}
+.rfcicon-help:before {
+	content: "\e00f";
+}

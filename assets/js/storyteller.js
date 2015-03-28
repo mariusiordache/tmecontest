@@ -104,11 +104,11 @@ $(document).ready(function() {
             app.switchSlide(this);
         },
         select: function() {
-            //this.canvas.show();
+            this.canvas.show();
             this.$el.addClass('current');
         },
         deselect: function() {
-            //this.canvas().hide();
+            this.canvas().hide();
             this.$el.removeClass('current');
         },
         toggle: function(newSlide) {
@@ -243,9 +243,16 @@ $(document).ready(function() {
             //start with any
             imgtype = "any";
             var imgtypeSelector = query.match(/^[^a-zA-Z]/g);
-            
+            var fileType  = "";
+            var imgSize = "xxlarge";
             if(imgtypeSelector && assoc[imgtypeSelector]){
                 imgtype = assoc[imgtypeSelector];
+                if(imgtypeSelector=="#"){
+                    fileType = "png";
+                }
+                if(imgtypeSelector!="@"){
+                    imgSize="small";
+                }
             }
 			
 			//} 
@@ -256,10 +263,14 @@ $(document).ready(function() {
 			}
 			
 			var selectedImgType = imgtype!="any"?("&imgType="+imgtype):"";
+			var selectedFileType = fileType!=""?("&fileType="+fileType):"";
+			var selectedImgSize = imgSize!=""?("&imgSize="+imgSize):"";
 			var theUrl = "https://www.googleapis.com/customsearch/v1?"
 							+"q="+query
 							+"&searchType=image"
 							+ selectedImgType
+							+ selectedFileType  
+							+ selectedImgSize  
 							+"&callback=searchCallback"
 							+"&googlehost=www.google.com"
 							+"&cx=018375217190222075462%3A4cmnq_yzkf8&key=AIzaSyChf-DwlkffjAR_9NIBjGRKSkRv3r8PegU"; 

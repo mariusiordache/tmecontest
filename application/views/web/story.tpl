@@ -46,6 +46,7 @@
         <ul class="tags">
         
         </ul>
+        <img class="loader" src="/assets/tiny-loader.gif" />
     </div>
 </script>
 

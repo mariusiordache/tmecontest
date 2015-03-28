@@ -61,3 +61,13 @@ h1 {margin-bottom: 20px;}
 .scrollable {
     overflow: auto;
 }
+
+.loader {
+    display: none;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
+#slide-editors > li {
+position:relative;}

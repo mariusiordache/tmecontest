@@ -13,7 +13,7 @@
             </ul>       
             
             <div id="slideCanvasHolder">
-                <canvas id="slideCanvas"></canvas>
+                <div id="slideCanvas"></div>
             </div>
          </div>
     </div>
@@ -45,7 +45,7 @@
 </script>
 
 <script type="text/backbone-template" id="image-selector-item-template">
-    <img src="<%= data.url %>" />
+    <img src="<%= data.link %>" />
 </script>
 
 {include file="web/includes/footer.tpl"}

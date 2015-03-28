@@ -2,6 +2,7 @@ $(document).ready(function() {
     
     var Tag = Backbone.Model.extend({
         setImageList: function(images, activateFirst) {
+                console.log(images);
             console.log('setting image list', images);
             this.images = images;
             if(activateFirst) {
@@ -9,8 +10,8 @@ $(document).ready(function() {
             }
         },
         setImage: function(image) {
-            console.log('setting image', image);
-            this.set('image_url', image);
+            console.log(image);
+            this.set('image_url', image.link);
         }
     });
     
@@ -45,7 +46,7 @@ $(document).ready(function() {
         }
     })
     
-    var SlideEditView = Backbone.View.extend({
+    var SlideEditView = Backbone.View.extend({        
         tagName: 'li',
         className: 'panel panel-default',
         template: _.template($('#slide-editor-template').html()),
@@ -54,6 +55,9 @@ $(document).ready(function() {
             this.$('textarea').keypress($.proxy(this.processText, this));
 			return this;
         },        
+        initialize: function() {
+            this.canvas = $('#slideCanvas').canvasWidget().data("ui-canvasWidget");
+        },
         processText: function(e) {
             switch(e.keyCode) {
                 case 32:
@@ -76,10 +80,11 @@ $(document).ready(function() {
                                     var tv = new TagView({model: t});
                                     this.$('.tags').append(tv.render().el);
                                     
+                                    this.listenTo(t, 'change:image_url', $.proxy(this.updateCanvas, this));
+                                    
                                     app.searchEngine.searchImages(w.substring(1), function(data) {
                                          t.setImageList(data, true);
-                                    });
-                                    
+                                    });                                   
                                     
                                 }
                                                                 
@@ -88,6 +93,9 @@ $(document).ready(function() {
                     }
                     break;
             }
+        },
+        updateCanvas: function(e) {
+            this.canvas.setImage(e.get('label'), e.get('image_url'), 0, 0);
         }
     })
     
@@ -195,11 +203,57 @@ $(document).ready(function() {
     app = new App();
     
     app.searchEngine = {        
-        searchImages: function(keyword, callback) {
-            callback.call(this, [
-                {url: "http://2.bp.blogspot.com/-lkzAjJ7mjxQ/UaL27IWJ0hI/AAAAAAAABnw/SwPK3Xkhqt8/s400/new-african-animals-you-are-viewing-the-jungle-scenes-named-palms-it-has-205911.jpg"},
-                {url: "http://images.wisegeek.com/jungle-and-rainforest.jpg"}
-            ]) 
+        searchImages: function(query, callback) {
+            app.searchCallback = callback;
+            if(!query || !query.length)return;
+			//if(!imgtype){
+				var assoc = {
+					"@":"photo",
+					"#":"clipart",
+					"*":"lineart",
+					"%":"face",
+				}
+				//start with any
+				imgtype = "any";
+				var imgtypeSelector = query.match(/^[^a-zA-Z]/g);
+				
+				if(imgtypeSelector && assoc[imgtypeSelector]){
+					imgtype = assoc[imgtypeSelector];
+				}
+			
+			//} 
+			//if it starts with a non-alpha char
+			if(query.match(/^[^a-zA-Z]/g)){
+				//delete first char
+				query = query.substring(1);
+			}
+			
+			var selectedImgType = imgtype!="any"?("&imgType="+imgtype):"";
+			var theUrl = "https://www.googleapis.com/customsearch/v1?"
+							+"q="+query
+							+"&searchType=image"
+							+ selectedImgType
+							+"&callback=searchCallback"
+							+"&googlehost=www.google.com"
+							+"&cx=018375217190222075462%3A4cmnq_yzkf8&key=AIzaSyChf-DwlkffjAR_9NIBjGRKSkRv3r8PegU"; 
+			$.ajax({
+				url: theUrl, 
+				// The name of the callback parameter, as specified by the YQL service
+				jsonp: "searchCallback",
+				// Tell jQuery we're expecting JSONP
+				dataType: "jsonp", 
+				// Work with the response
+				success: function( response ) {
+					console.log( "success response", response ); // server response
+				}
+			});           
+            
         }        
     }
+    
 });
+
+function searchCallback(param) {
+    app.searchCallback.call(this, param.items);
+    console.log(param);
+}

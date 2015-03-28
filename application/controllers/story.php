@@ -9,8 +9,10 @@ require_once('main_controller.php');
             $this -> assets -> add_js('//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',false);
             $this -> assets -> add_js('//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js',false);
             $this -> assets -> add_css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css',false);
+            $this -> assets -> add_js('//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js',false);
             
             $this -> assets -> add_js('js/storyteller.js', false);
+            $this -> assets -> add_js('js/canvaswidget.js', false);
             $this -> assets -> add_css('css/storyteller.css', false);
             
             $this -> set_template('web/story.tpl');

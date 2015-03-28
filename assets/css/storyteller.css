@@ -54,6 +54,6 @@ h1 {margin-bottom: 20px;}
 }
 
 .current {
-    border-color: #FF0000;
-    background: #F1F1F1;
+    border-color: #006699;
+    background: lightgreen;
 }

@@ -1,5 +1,10 @@
 {include file="web/includes/barebones-header.tpl"}
 
+<script type="text/javascript">
+    backend_story_id = "{$story_id}";
+</script>
+
+
 <div class="container-fluid">
     <h1>Once upon a type</h1>
 	<div class="row">
@@ -37,7 +42,7 @@
 
 <script type="text/backbone-template" id="slide-editor-template">  
     <div class="panel-body">
-        <textarea class="form-control" rows="1" placeholder="Type your story"><%= slide.text %></textarea>
+        <textarea class="form-control" rows="1" placeholder="Type your story"><%= slide.paragraph %></textarea>
         <ul class="tags">
         
         </ul>

@@ -20,7 +20,7 @@ $(document).ready(function() {
     })
         
     var Slide = Backbone.Model.extend({
-
+        'urlRoot' : '/story/save_slide'
     })
     
     var Slides = Backbone.Collection.extend({
@@ -63,6 +63,10 @@ $(document).ready(function() {
         },
         processText: function(e) {
             switch(e.keyCode) {
+                case 13:
+                    app.addBlankSlide.call(app, true);
+                    e.preventDefault();
+                    break;
                 case 32:
                 case 44:
                 case 46:
@@ -70,9 +74,10 @@ $(document).ready(function() {
                 case 63:
                     var words = this.$('textarea').val().match(/\S+\s*/gi);
                     for(var i in words) {
-                        w = words[i].replace(/[^a-z0-9@#\-_]+/gi,"");
+                        w = words[i].replace(/[^a-z0-9\*@#\-_]+/gi,"");
                         switch(w.charAt(0)) {
                             case '@':
+                            case '*':
                             case '#':
                                 if(!('tags' in this.model))
                                     this.model.tags = new Tags();
@@ -106,9 +111,10 @@ $(document).ready(function() {
         select: function() {
             this.canvas.show();
             this.$el.addClass('current');
+            this.$('textarea').focus();
         },
         deselect: function() {
-            this.canvas().hide();
+            this.canvas.hide();
             this.$el.removeClass('current');
         },
         toggle: function(newSlide) {
@@ -192,7 +198,8 @@ $(document).ready(function() {
           
     var App = Backbone.View.extend({
         el: 'body',
-        initialize: function() {
+        initialize: function(story_id) {
+            this.story_id = story_id;
             this.slides = new Slides();            
             this.imageSelector = new ImageSelector();  
             this.$('#add-slide').on('click', $.proxy(this.addBlankSlide, this));          
@@ -210,7 +217,14 @@ $(document).ready(function() {
         },
         addBlankSlide: function(e) {
             console.log('addSlide');
-            var s = new Slide({text: ''});
+            var s = new Slide({paragraph: '', story_id: this.story_id});
+            var that = this;
+            this.listenTo(s, 'sync', function(data){
+                that.onAddBlankSlide(s, data);
+            });
+            s.save();
+        },
+        onAddBlankSlide: function(s,data) {            
             this.slides.add(s);
             var sev = new SlideEditView({model: s});
             $('#slide-editors').append(sev.render().el);            
@@ -227,7 +241,7 @@ $(document).ready(function() {
         }
     });
     
-    app = new App();
+    app = new App(backend_story_id);
     
     app.searchEngine = {        
         searchImages: function(query, callback) {

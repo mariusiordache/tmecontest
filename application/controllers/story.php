@@ -54,6 +54,8 @@ class story extends main_controller
         $this->assets->add_js('js/canvaswidget.js', false);
         $this->assets->add_css('css/storyteller.css', false);
 
+        $this -> set_template_var('story_id', $hash);
+        
         $this->set_template('web/story.tpl');
         $this->show_page();
     }

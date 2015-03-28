@@ -34,6 +34,9 @@ $(document).ready(function() {
         events: {
             'click': 'showImageSelector'
         },
+        initialize: function() {
+            this.listenTo(this.model, 'destroy', $.proxy(this.remove, this));
+        },
         render: function() {            
 			this.$el.html(this.template({tag: this.model.toJSON()}));	            
 			return this;
@@ -52,17 +55,55 @@ $(document).ready(function() {
         render: function() {            
 			this.$el.html(this.template({slide: this.model.toJSON()}));			
             this.$('textarea').keypress($.proxy(this.processText, this));
+            this.$('textarea').keyup($.proxy(this.processBackspace, this));
 			return this;
         },        
         initialize: function() {
-            var c = $('<div class="slideCanvas" id="' + this.id + '"></div>').appendTo($('#slideCanvasHolder'));
+            var c = $('<div class="slideCanvas" id="terog' + this.cid + '"></div>').appendTo($('#slideCanvasHolder'));
             this.canvas = c.canvasWidget().data("ui-canvasWidget");  
 
             this.$('textarea').on('focus', $.proxy(this.requestSlideSwitch, this));
             this.$el.on('click', $.proxy(this.requestSlideSwitch, this));
         },
+        processBackspace: function(e) {
+            
+            var words = this.$('textarea').val().match(/\S+\s*/gi);
+            console.log(e.which);
+            switch(e.which) {
+                case 8:
+                case 46:
+                    var todelete = [];
+                    if('tags' in this.model) {
+                        var that = this;
+                        this.model.tags.each(function(t) {
+                            console.log('LABEL:' + t.get('label'));
+                            var found = false;
+                            for(var i in words) {
+                                w = words[i].replace(/[^a-z0-9\*@#\-_]+/gi,"");
+                                if(w == t.get('label')) {
+                                    found = true;
+                                }
+                            }
+                            if(!found) {
+                                todelete.push(t);
+                            }
+                        })
+                    }
+                    for(var i in todelete) {
+                        t = todelete[i];
+                        console.log('NOT FOUND, TO DELETE:', t.get('label'), words);
+                        that.model.tags.remove(t);
+                        that.removeImageFromCanvas(t.get('label'));
+                        t.destroy();
+                        console.log(t);
+                    }
+                    break;
+                
+            }
+        },
         processText: function(e) {
-            switch(e.keyCode) {
+            var words = this.$('textarea').val().match(/\S+\s*/gi);
+            switch(e.keyCode) {                
                 case 13:
                     app.addBlankSlide.call(app, true);
                     e.preventDefault();
@@ -71,8 +112,7 @@ $(document).ready(function() {
                 case 44:
                 case 46:
                 case 33:
-                case 63:
-                    var words = this.$('textarea').val().match(/\S+\s*/gi);
+                case 63:                    
                     for(var i in words) {
                         w = words[i].replace(/[^a-z0-9\*@#\-_]+/gi,"");
                         switch(w.charAt(0)) {
@@ -104,6 +144,9 @@ $(document).ready(function() {
         },
         updateCanvas: function(e) {
             this.canvas.setImage(e.get('label'), e.get('image_url'), 0, 0);
+        },
+        removeImageFromCanvas:function(label) {
+            this.canvas.deleteImage(label);
         },
         requestSlideSwitch: function() {
             app.switchSlide(this);
@@ -218,13 +261,13 @@ $(document).ready(function() {
         addBlankSlide: function(e) {
             console.log('addSlide');
             var s = new Slide({paragraph: '', story_id: this.story_id});
-            var that = this;
+            /* var that = this;
             this.listenTo(s, 'sync', function(data){
                 that.onAddBlankSlide(s, data);
             });
             s.save();
         },
-        onAddBlankSlide: function(s,data) {            
+        onAddBlankSlide: function(s,data) {        */    
             this.slides.add(s);
             var sev = new SlideEditView({model: s});
             $('#slide-editors').append(sev.render().el);            

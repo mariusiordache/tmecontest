@@ -21,7 +21,7 @@ h1 {margin-bottom: 20px;}
 }
 
 #slideCanvasHolder {
-    border: 1px solid #CDCDCD;    
+    border: 1px solid transparent;    
 }
 
 #tagImageSelector {
@@ -54,6 +54,10 @@ h1 {margin-bottom: 20px;}
 }
 
 .current {
-    border-color: #006699;
-    background: lightgreen;
+    border-color: #0D47A1;
+    background: #BBDEFB;
+}
+
+.scrollable {
+    overflow: auto;
 }

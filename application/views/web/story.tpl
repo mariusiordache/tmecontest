@@ -7,13 +7,13 @@
 
 <div class="container-fluid">
     <h1>Once upon a type</h1>
-	<div class="row">
+	<div class="row" id="main">
          <div class="col-lg-4" id="editor">
             <ul id="slide-editors">
             </ul>         
             <button id="add-slide" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
          </div>
-         <div class="col-lg-8">
+         <div class="col-lg-8" class="scrollable">
             <ul id="slides">
             </ul>       
             

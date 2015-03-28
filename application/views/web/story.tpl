@@ -45,7 +45,7 @@
 </script>
 
 <script type="text/backbone-template" id="image-selector-item-template">
-    <img src="<%= data.link %>" />
+    <img src="<%= data.image.thumbnailLink %>" />
 </script>
 
 {include file="web/includes/footer.tpl"}

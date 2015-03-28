@@ -134,24 +134,6 @@ $.widget('ui.canvasWidget', {
             });
 
 
-            var imgd = ctx.getImageData(0, 0, 135, 135),
-                    pix = imgd.data,
-                    newColor = {r: 0, g: 0, b: 0, a: 0};
-
-            for (var i = 0, n = pix.length; i < n; i += 4) {
-                var r = pix[i],
-                        g = pix[i + 1],
-                        b = pix[i + 2];
-
-                if (r == 255 && g == 255 && b == 255) {
-                    // Change the white to the new color.
-                    pix[i] = newColor.r;
-                    pix[i + 1] = newColor.g;
-                    pix[i + 2] = newColor.b;
-                    pix[i + 3] = newColor.a;
-                }
-            }
-
             r.drag(that._move, that._start, that._up);
             r.poppable = poppable;
 

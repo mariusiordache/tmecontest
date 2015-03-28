@@ -16,9 +16,10 @@ $.widget('ui.canvasWidget', {
             this.sizer.ox = this.sizer.attr("x");
             this.sizer.oy = this.sizer.attr("y");
             this.sizer.attr({opacity: 0.5});
-            console.log(this.poppable)
+            
             if (this.poppable) {
                 this.toFront();
+                this.sizer.toFront();
             }
         };
         that._move = function (dx, dy) {
@@ -61,18 +62,26 @@ $.widget('ui.canvasWidget', {
 
         if (this._layers[layer] !== undefined) {
             r = this._layers[layer];
-            r.node.href.baseVal = url;
+
+            var image = new Image();
+            image.src = url;
+            image.onload = function () {
+
+                r.node.href.baseVal = url;
+
+                if (!r.poppable) {
+                    r.toBack();
+                } else {
+                    r.toFront();
+                }
+            };
             
-            if (!r.poppable) {
-                r.toBack();
-            } else {
-                r.toFront();
-            }
             return;
         }
 
         if (ratio === undefined) {
-            ratio = Math.round(Math.random(0, 1), 2);
+            ratio = Math.round(Math.random() / 10, 2);
+            ratio = ratio == 0 ? 1 : ratio;
         }
 
         if (x == undefined) {
@@ -89,18 +98,25 @@ $.widget('ui.canvasWidget', {
 
         image.onload = function () {
 
-            var landscape = (this.width >  this.height);
+            var landscape = (this.width > this.height);
             var max_h = that.element.height();
             var max_w = that.element.width();
+
+            var ratios = new Array((max_h / this.height), (max_w / this.width));
+            var poppable = (layer[0] != '@');
             
             if (landscape) {
-                ratio = ratio * (max_h / this.height);
+                ratio = ratio * ratios[0];
             } else {
-                ratio = ratio * (max_w / this.width);
+                ratio = ratio * ratios[1];
             }
             
-            var h = ratio * this.height;
-            var w = ratio * this.width;
+            if (poppable) {
+                ratio = Math.min.apply(Math, ratios);
+            }
+           
+            var h = Math.round(ratio * this.height);
+            var w = Math.round(ratio * this.width);
             
             r = that._paper.image(url, x, y, w, h).attr({
                 stroke: "none",
@@ -108,10 +124,7 @@ $.widget('ui.canvasWidget', {
             });
 
             r.drag(that._move, that._start, that._up);
-            r.poppable = (layer[0] != '@');
-
-            console.log(this.src, layer, r.poppable)
-
+            r.poppable = poppable;
 
             if (!r.poppable) {
                 r.toBack();

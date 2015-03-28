@@ -41,6 +41,7 @@
 $route['default_controller'] = "homepage";
 $route['404_override'] = '';
 
+$route['test'] = 'homepage/test';
 $route['admin'] = 'admin/dashboard';
 $route['admin\/(.*)'] = 'admin/$1';
 $route['tools\/(.*)'] = 'tools/$1';

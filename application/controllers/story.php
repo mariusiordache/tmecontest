@@ -50,6 +50,7 @@ class story extends main_controller
         $this->assets->add_css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css', false);
         $this->assets->add_js('//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js', false);
         $this->assets->add_js('//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js', false);
+        $this->assets->add_js('html2canvas-0.5.0-alpha1/dist/html2canvas.js', false);
         $this->assets->add_js('js/raphael.export.js', false);
         $this->assets->add_js('js/canvg.js', false);
 

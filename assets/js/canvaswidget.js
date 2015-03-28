@@ -74,22 +74,9 @@ $.widget('ui.canvasWidget', {
         this.element.hide();
     },
     export: function() {
-        var id = 'canvas' + CryptoJS.MD5(Math.random() + "").toString();
-        var $canvas = $('<canvas>').attr('id', id);
-        $('body').append($canvas);
-        var svg = this._paper.toSVG();
-
-       //Use canvg to draw the SVG onto the empty canvas
-       canvg(document.getElementById(id), svg);
-       setTimeout(function() {
-           var dataURL = document.getElementById(id).toDataURL("image/png");
-           
-           $('body').append(
-                $('<img>').attr('src', dataURL)
-           );
-   
-           $('#' + id).remove();
-       }, 500);
+        html2canvas(this.element).then(function(canvas) {
+            document.body.appendChild(canvas);
+        });
     },
     setText: function(text) {
         

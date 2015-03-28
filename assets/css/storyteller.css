@@ -1,5 +1,11 @@
 ul {list-style-type: none; padding: 0; margin: 0;}
 
+
+.container {
+    padding-top: 25px;
+}
+h1 {margin-bottom: 20px;}
+
 .tags {margin-top: 15px;}
 
 .tags li {
@@ -8,7 +14,7 @@ ul {list-style-type: none; padding: 0; margin: 0;}
     cursor: pointer;
 }
 
-#slideCanvas {
+.slideCanvas {
     width: 100%;
     height: 550px;
     background: #FF0000;
@@ -33,9 +39,21 @@ ul {list-style-type: none; padding: 0; margin: 0;}
 #tagImageSelector .items > li {
     width: 18%;
     margin-left: 2%;
-    display: inline-block    
+    display: inline-block;
+    cursor: pointer;
 }
 
 #tagImageSelector .items > li img {
     max-width: 100%;
+    border: 2px solid transparent;
+}
+
+#tagImageSelector .items > li:hover img {
+    max-width: 100%;
+    border: 2px solid #006699;
+}
+
+.current {
+    border-color: #FF0000;
+    background: #F1F1F1;
 }

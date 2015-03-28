@@ -42,7 +42,6 @@ $(document).ready(function() {
             e.stopPropagation();            
             app.imageSelector.setCurrentTag(this.model);
             app.imageSelector.open(this.$el.offset());
-            console.log('xx');
         }
     })
     
@@ -56,7 +55,11 @@ $(document).ready(function() {
 			return this;
         },        
         initialize: function() {
-            this.canvas = $('#slideCanvas').canvasWidget().data("ui-canvasWidget");
+            var c = $('<div class="slideCanvas" id="' + this.id + '"></div>').appendTo($('#slideCanvasHolder'));
+            this.canvas = c.canvasWidget().data("ui-canvasWidget");  
+
+            this.$('textarea').on('focus', $.proxy(this.requestSlideSwitch, this));
+            this.$el.on('click', $.proxy(this.requestSlideSwitch, this));
         },
         processText: function(e) {
             switch(e.keyCode) {
@@ -65,7 +68,7 @@ $(document).ready(function() {
                 case 46:
                 case 33:
                 case 63:
-                    var words = $('textarea').val().match(/\S+\s*/gi);
+                    var words = this.$('textarea').val().match(/\S+\s*/gi);
                     for(var i in words) {
                         w = words[i].replace(/[^a-z0-9@#\-_]+/gi,"");
                         switch(w.charAt(0)) {
@@ -82,7 +85,7 @@ $(document).ready(function() {
                                     
                                     this.listenTo(t, 'change:image_url', $.proxy(this.updateCanvas, this));
                                     
-                                    app.searchEngine.searchImages(w.substring(1), function(data) {
+                                    app.searchEngine.searchImages(w, function(data) {
                                          t.setImageList(data, true);
                                     });                                   
                                     
@@ -96,6 +99,24 @@ $(document).ready(function() {
         },
         updateCanvas: function(e) {
             this.canvas.setImage(e.get('label'), e.get('image_url'), 0, 0);
+        },
+        requestSlideSwitch: function() {
+            app.switchSlide(this);
+        },
+        select: function() {
+            //this.canvas.show();
+            this.$el.addClass('current');
+        },
+        deselect: function() {
+            //this.canvas().hide();
+            this.$el.removeClass('current');
+        },
+        toggle: function(newSlide) {
+            if(newSlide == this) {
+                this.select();
+            } else {
+                this.deselect();
+            }
         }
     })
     
@@ -192,11 +213,17 @@ $(document).ready(function() {
             var s = new Slide({text: ''});
             this.slides.add(s);
             var sev = new SlideEditView({model: s});
-            var sv = new SlideView({model: s});
-            $('#slide-editors').append(sev.render().el);
+            $('#slide-editors').append(sev.render().el);            
+            sev.listenTo(this, 'switchSlide', sev.toggle);
+            if(e){
+                sev.requestSlideSwitch(sev);
+            }
         },
         addSlide: function(slide) {
             
+        },
+        switchSlide: function(slide) {
+           this.trigger('switchSlide', slide);
         }
     });
     
@@ -207,19 +234,19 @@ $(document).ready(function() {
             app.searchCallback = callback;
             if(!query || !query.length)return;
 			//if(!imgtype){
-				var assoc = {
-					"@":"photo",
-					"#":"clipart",
-					"*":"lineart",
-					"%":"face",
-				}
-				//start with any
-				imgtype = "any";
-				var imgtypeSelector = query.match(/^[^a-zA-Z]/g);
-				
-				if(imgtypeSelector && assoc[imgtypeSelector]){
-					imgtype = assoc[imgtypeSelector];
-				}
+            var assoc = {
+                "@":"photo",
+                "#":"clipart",
+                "*":"lineart",
+                "%":"face",
+            }
+            //start with any
+            imgtype = "any";
+            var imgtypeSelector = query.match(/^[^a-zA-Z]/g);
+            
+            if(imgtypeSelector && assoc[imgtypeSelector]){
+                imgtype = assoc[imgtypeSelector];
+            }
 			
 			//} 
 			//if it starts with a non-alpha char

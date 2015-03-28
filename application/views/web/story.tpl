@@ -1,8 +1,8 @@
 {include file="web/includes/barebones-header.tpl"}
 
-<div class="container">
+<div class="container-fluid">
+    <h1>Once upon a type</h1>
 	<div class="row">
-         <h1>Once upon a type</h1>
          <div class="col-lg-4" id="editor">
             <ul id="slide-editors">
             </ul>         
@@ -13,7 +13,7 @@
             </ul>       
             
             <div id="slideCanvasHolder">
-                <div id="slideCanvas"></div>
+                
             </div>
          </div>
     </div>

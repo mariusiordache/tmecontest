@@ -1,7 +1,7 @@
 <?php
 	$config = array (
-  'table' => 'users',
-  'model' => 'user',
+  'table' => 'slides',
+  'model' => 'slide',
   'fields' => 
   array (
     'id' => 
@@ -20,109 +20,75 @@
         'NULL' => false,
       ),
     ),
-    'email' => 
+    'story_id' => 
     array (
-      'name' => 'email',
-      'type' => 'varchar',
       'vgroups' => 
       array (
         0 => 
         array (
           'name' => 'create',
+          'state' => '',
           'rules' => 
           array (
-            0 => 
-            array (
-              'rule' => 'required',
-              'state' => '',
-            ),
-            1 => 
-            array (
-              'rule' => 'valid_email',
-              'state' => '',
-            ),
           ),
-          'state' => '',
         ),
         1 => 
         array (
           'name' => 'update',
+          'state' => '',
           'rules' => 
           array (
-            0 => 
-            array (
-              'rule' => 'required',
-            ),
-            1 => 
-            array (
-              'rule' => 'valid_email',
-            ),
           ),
-          'state' => '',
         ),
       ),
-      'length' => 100,
+      'name' => 'story_id',
+      'type' => 'int',
+      'length' => '',
       'digits' => '',
       'decimals' => '',
-      'data_source' => '',
+      'data_source' => '100',
       'admin_header' => 'on',
       'forge' => 
       array (
-        'type' => 'varchar',
-        'constraint' => 100,
+        'type' => 'int',
         'NULL' => false,
       ),
     ),
-    'password' => 
+    'position' => 
     array (
-      'name' => 'password',
-      'type' => 'varchar',
       'vgroups' => 
       array (
         0 => 
         array (
           'name' => 'create',
+          'state' => '',
           'rules' => 
           array (
-            0 => 
-            array (
-              'rule' => 'required',
-              'state' => '',
-            ),
-            1 => 
-            array (
-              'rule' => 'callback_encrypt_password',
-              'state' => '',
-            ),
           ),
-          'state' => '',
         ),
         1 => 
         array (
           'name' => 'update',
+          'state' => '',
           'rules' => 
           array (
-            0 => 
-            array (
-              'rule' => 'callback_encrypt_password',
-            ),
           ),
-          'state' => '',
         ),
       ),
-      'length' => 100,
+      'name' => 'position',
+      'type' => 'int',
+      'length' => '',
       'digits' => '',
       'decimals' => '',
       'data_source' => '',
       'admin_header' => 'on',
       'forge' => 
       array (
-        'type' => 'varchar',
-        'constraint' => 100,
+        'type' => 'int',
         'NULL' => false,
       ),
     ),
-    'name' => 
+    'paragraph' => 
     array (
       'vgroups' => 
       array (
@@ -143,9 +109,9 @@
           ),
         ),
       ),
-      'name' => 'name',
+      'name' => 'paragraph',
       'type' => 'varchar',
-      'length' => '100',
+      'length' => '255',
       'digits' => '',
       'decimals' => '',
       'data_source' => '',
@@ -153,7 +119,7 @@
       'forge' => 
       array (
         'type' => 'varchar',
-        'constraint' => '100',
+        'constraint' => '255',
         'NULL' => false,
       ),
     ),
@@ -202,5 +168,5 @@
       ),
     ),
   ),
-  'controller' => 'manage_users',
+  'controller' => 'manage_slides',
 );

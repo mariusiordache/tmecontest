@@ -12,6 +12,7 @@
             <ul id="slide-editors">
             </ul>         
             <button id="add-slide" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+            <button id="show-story" class="btn btn-default">show story</button>
          </div>
          <div class="col-lg-8" class="scrollable">
             <ul id="slides">
@@ -27,6 +28,7 @@
 <div id="tagImageSelector" class="panel panel-default">
     <div class="panel-body">
         <ul class="items"></ul>
+        <button id="moreResults" class="btn btn-default">next</button>
     </div>
 </div>
 

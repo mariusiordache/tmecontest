@@ -130,6 +130,8 @@ $(document).ready(function() {
                                     
                                     this.listenTo(t, 'change:image_url', $.proxy(this.updateCanvas, this));
                                     
+                                    this.startLoading();
+                                    
                                     app.searchEngine.searchImages(w, function(data) {
                                          t.setImageList(data, true);
                                     });                                   
@@ -143,7 +145,9 @@ $(document).ready(function() {
             }
         },
         updateCanvas: function(e) {
+            this.startLoading();
             this.canvas.setImage(e.get('label'), e.get('image_url'), 0, 0);
+            this.canvas.element.on('renderedOk', $.proxy(this.stopLoading, this));
         },
         removeImageFromCanvas:function(label) {
             this.canvas.deleteImage(label);
@@ -166,6 +170,12 @@ $(document).ready(function() {
             } else {
                 this.deselect();
             }
+        },
+        startLoading: function() {
+            this.$('.loader').show();            
+        },
+        stopLoading: function() {
+            this.$('.loader').hide();
         }
     })
     

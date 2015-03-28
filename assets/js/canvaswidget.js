@@ -92,17 +92,15 @@ $.widget('ui.canvasWidget', {
        }, 500);
     },
     setText: function(text) {
+        
+        text = text.replace(/(#|@|\*)/g, "");
+        
         if (!this._text) {
-            this._text = this._paper
-                    .text(30, this.element.height() - 50, text)
-                    .attr({fill: '#FFF'})
-                    .attr({'font-size':'30px'})
-                    .attr({'font-family':'Arial'});
-        } else {
-            this._text.attr({text: text});
+            this._text =  $('<div>').addClass('texthover');
+            this.element.append(this._text);
         }
         
-        this._text.toFront();
+        this._text.html(text);
         
     },
     setImage: function (layer, url, x, y, ratio) {

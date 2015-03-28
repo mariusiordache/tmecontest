@@ -61,12 +61,14 @@ $(document).ready(function() {
         initialize: function() {
             var c = $('<div class="slideCanvas" id="terog' + this.cid + '"></div>').appendTo($('#slideCanvasHolder'));
             this.canvas = c.canvasWidget().data("ui-canvasWidget");  
-
+            $(document).on('renderedOk', $.proxy(this.stopLoading, this));
+            
             this.$('textarea').on('focus', $.proxy(this.requestSlideSwitch, this));
             this.$el.on('click', $.proxy(this.requestSlideSwitch, this));
         },
         processBackspace: function(e) {
             
+            this.canvas.setText(this.$('textarea').val());
             var words = this.$('textarea').val().match(/\S+\s*/gi);
             console.log(e.which);
             switch(e.which) {
@@ -102,6 +104,7 @@ $(document).ready(function() {
             }
         },
         processText: function(e) {
+            this.canvas.setText(this.$('textarea').val());
             var words = this.$('textarea').val().match(/\S+\s*/gi);
             switch(e.keyCode) {                
                 case 13:
@@ -147,7 +150,6 @@ $(document).ready(function() {
         updateCanvas: function(e) {
             this.startLoading();
             this.canvas.setImage(e.get('label'), e.get('image_url'), 0, 0);
-            this.canvas.element.on('renderedOk', $.proxy(this.stopLoading, this));
         },
         removeImageFromCanvas:function(label) {
             this.canvas.deleteImage(label);
@@ -175,6 +177,7 @@ $(document).ready(function() {
             this.$('.loader').show();            
         },
         stopLoading: function() {
+            console.log('stop');
             this.$('.loader').hide();
         }
     })

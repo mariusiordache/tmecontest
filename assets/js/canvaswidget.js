@@ -1,6 +1,7 @@
 $.widget('ui.canvasWidget', {
     _layers: new Object(),
     _paper: null,
+    _text: null,
     _create: function () {
         var that = this,
                 $element = that.element;
@@ -90,6 +91,20 @@ $.widget('ui.canvasWidget', {
            $('#' + id).remove();
        }, 500);
     },
+    setText: function(text) {
+        if (!this._text) {
+            this._text = this._paper
+                    .text(30, this.element.height() - 50, text)
+                    .attr({fill: '#FFF'})
+                    .attr({'font-size':'30px'})
+                    .attr({'font-family':'Arial'});
+        } else {
+            this._text.attr({text: text});
+        }
+        
+        this._text.toFront();
+        
+    },
     setImage: function (layer, url, x, y, ratio) {
 
         if (this._layers[layer] !== undefined) {
@@ -125,7 +140,6 @@ $.widget('ui.canvasWidget', {
         }
 
         var image = new Image();
-//        image.setAttribute('crossOrigin', 'anonymous');
         image.src = url;
         var that = this;
 
@@ -158,8 +172,6 @@ $.widget('ui.canvasWidget', {
                 cursor: "move"
             });
 
-            console.log(url)
-
             r.drag(that._move, that._start, that._up);
             r.poppable = poppable;
 
@@ -183,6 +195,8 @@ $.widget('ui.canvasWidget', {
 
 
             that._layers[layer] = r;
+            
+            that.element.trigger('rederedOk');
         };
     }
 });

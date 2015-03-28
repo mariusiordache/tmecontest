@@ -2,15 +2,15 @@ $(document).ready(function() {
     
     var Tag = Backbone.Model.extend({
         setImageList: function(images, activateFirst) {
-                console.log(images);
-            console.log('setting image list', images);
+                //console.log(images);
+            //console.log('setting image list', images);
             this.images = images;
             if(activateFirst) {
                 this.setImage(this.images[0]);
             }
         },
         setImage: function(image) {
-            console.log(image);
+            //console.log(image);
             this.set('image_url', image.link);
         }
     });
@@ -70,7 +70,7 @@ $(document).ready(function() {
             
             this.canvas.setText(this.$('textarea').val());
             var words = this.$('textarea').val().match(/\S+\s*/gi);
-            console.log(e.which);
+            //console.log(e.which);
             switch(e.which) {
                 case 8:
                 case 46:
@@ -78,7 +78,7 @@ $(document).ready(function() {
                     if('tags' in this.model) {
                         var that = this;
                         this.model.tags.each(function(t) {
-                            console.log('LABEL:' + t.get('label'));
+                            //console.log('LABEL:' + t.get('label'));
                             var found = false;
                             for(var i in words) {
                                 w = words[i].replace(/[^a-z0-9\*@#\-_]+/gi,"");
@@ -93,11 +93,11 @@ $(document).ready(function() {
                     }
                     for(var i in todelete) {
                         t = todelete[i];
-                        console.log('NOT FOUND, TO DELETE:', t.get('label'), words);
+                        //console.log('NOT FOUND, TO DELETE:', t.get('label'), words);
                         that.model.tags.remove(t);
                         that.removeImageFromCanvas(t.get('label'));
                         t.destroy();
-                        console.log(t);
+                        //console.log(t);
                     }
                     break;
                 
@@ -176,8 +176,8 @@ $(document).ready(function() {
         startLoading: function() {
             this.$('.loader').show();            
         },
-        stopLoading: function() {
-            console.log('stop');
+        stopLoading: function(e) {
+            console.log('stop', e);
             this.$('.loader').hide();
         }
     })
@@ -194,6 +194,8 @@ $(document).ready(function() {
             this.$el.on('click', function(e){
                 e.stopPropagation();
             });
+            
+            this.$('#moreResults').on('click', $.proxy(this.getMoreImages, this));
         },
         open: function(position) {
             position.top += 25;
@@ -207,14 +209,20 @@ $(document).ready(function() {
         },
         populateImages: function(images) {            
             this.clear();
-            console.log('images', images);
+            //console.log('images', images);
             for(var i in images) {
                 var v = new ImageSelectorItemView(images[i]);
                 this._views.push(v);
                 this.$('.items').append(v.render().el);
                 this.listenTo(v, 'imageSelected', $.proxy(this.imageSelected, this));
-                console.log('image added');
+                //console.log('image added');
             }
+        },
+        getMoreImages: function(images) {
+            var that = this;
+            app.searchEngine.searchImages(this.currentTag.get('label'), function(data) {
+                 that.populateImages(data, true);
+            }, this.firstResult+=10);
         },
         clear: function() {
             for(var i in this._views)
@@ -224,7 +232,8 @@ $(document).ready(function() {
             this.currentTag.setImage(image);
         },
         setCurrentTag: function(t){
-            console.log('setting current tag to:' + t.get('label'));
+            //console.log('setting current tag to:' + t.get('label'));
+            this.firstResult = 0;
             this.currentTag = t;
             if('images' in t) {
                 this.populateImages(t.images);
@@ -259,6 +268,7 @@ $(document).ready(function() {
             this.slides = new Slides();            
             this.imageSelector = new ImageSelector();  
             this.$('#add-slide').on('click', $.proxy(this.addBlankSlide, this));          
+            this.$('#show-story').on('click', $.proxy(this.showStory, this));          
             if(typeof backend_slides !== 'undefined') {
                 for(var i in backend_slides) {
                     this.addSlide(slides[i]);
@@ -272,7 +282,7 @@ $(document).ready(function() {
             })
         },
         addBlankSlide: function(e) {
-            console.log('addSlide');
+            //console.log('addSlide');
             var s = new Slide({paragraph: '', story_id: this.story_id});
             /* var that = this;
             this.listenTo(s, 'sync', function(data){
@@ -294,13 +304,26 @@ $(document).ready(function() {
         },
         switchSlide: function(slide) {
            this.trigger('switchSlide', slide);
+        },
+        showStory: function(e) {
+            if($('#show-story').text()=='show story') {
+                $('#slide-editors').fadeOut();
+                $('.slideCanvas').show();
+                $('#show-story').html('edit story');                
+            } else {
+                $('#slide-editors').fadeIn();
+                $('.slideCanvas').hide();
+                $('#show-story').html('show story');                
+            }
         }
     });
     
     app = new App(backend_story_id);
     
     app.searchEngine = {        
-        searchImages: function(query, callback) {
+        searchImages: function(query, callback, start) {
+            if(arguments.length==2)
+                start = 1;
             app.searchCallback = callback;
             if(!query || !query.length)return;
 			//if(!imgtype){
@@ -321,7 +344,7 @@ $(document).ready(function() {
                     fileType = "png";
                 }
                 if(imgtypeSelector!="@"){
-                    imgSize="small";
+                    imgSize="medium";
                 }
             }
 			
@@ -342,6 +365,7 @@ $(document).ready(function() {
 							+ selectedFileType  
 							+ selectedImgSize  
 							+"&callback=searchCallback"
+                            +"&start="+start
 							+"&googlehost=www.google.com"
 							+"&cx=018375217190222075462%3A4cmnq_yzkf8&key=AIzaSyChf-DwlkffjAR_9NIBjGRKSkRv3r8PegU"; 
 			$.ajax({
@@ -352,7 +376,7 @@ $(document).ready(function() {
 				dataType: "jsonp", 
 				// Work with the response
 				success: function( response ) {
-					console.log( "success response", response ); // server response
+					//console.log( "success response", response ); // server response
 				}
 			});           
             
@@ -363,5 +387,5 @@ $(document).ready(function() {
 
 function searchCallback(param) {
     app.searchCallback.call(this, param.items);
-    console.log(param);
+    //console.log(param);
 }

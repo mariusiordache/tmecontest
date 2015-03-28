@@ -120,7 +120,7 @@ $.widget('ui.canvasWidget', {
                     r.toFront();
                 }
             };
-
+$(document).trigger('renderedOk');
             return;
         }
 

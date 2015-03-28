@@ -68,6 +68,24 @@ $.widget('ui.canvasWidget', {
     hide: function () {
         this.element.hide();
     },
+    export: function() {
+        var id = 'canvas' + CryptoJS.MD5(Math.random() + "").toString();
+        var $canvas = $('<canvas>').attr('id', id);
+        $('body').append($canvas);
+        var svg = this._paper.toSVG();
+
+       //Use canvg to draw the SVG onto the empty canvas
+       canvg(document.getElementById(id), svg);
+       setTimeout(function() {
+           var dataURL = document.getElementById(id).toDataURL("image/png");
+           
+           $('body').append(
+                $('<img>').attr('src', dataURL)
+           );
+   
+           $('#' + id).remove();
+       }, 500);
+    },
     setImage: function (layer, url, x, y, ratio) {
 
         if (this._layers[layer] !== undefined) {
@@ -103,6 +121,7 @@ $.widget('ui.canvasWidget', {
         }
 
         var image = new Image();
+//        image.setAttribute('crossOrigin', 'anonymous');
         image.src = url;
         var that = this;
 
@@ -122,7 +141,9 @@ $.widget('ui.canvasWidget', {
             }
 
             if (poppable) {
-                ratio = Math.min.apply(Math, ratios);
+                ratio = Math.min.apply(Math, ratios) / 4;
+            } else {
+                ratio = Math.max.apply(Math, ratios);
             }
 
             var h = Math.round(ratio * this.height);
@@ -133,6 +154,7 @@ $.widget('ui.canvasWidget', {
                 cursor: "move"
             });
 
+            console.log(url)
 
             r.drag(that._move, that._start, that._up);
             r.poppable = poppable;

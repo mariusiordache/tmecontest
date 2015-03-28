@@ -181,7 +181,7 @@ $.widget('ui.canvasWidget', {
 
             that._layers[layer] = r;
             
-            that.element.trigger('rederedOk');
+            $(document).trigger('renderedOk');
         };
     }
 });

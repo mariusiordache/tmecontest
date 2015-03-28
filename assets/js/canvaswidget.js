@@ -13,11 +13,13 @@ $.widget('ui.canvasWidget', {
             this.oy = this.attr("y");
             this.attr({opacity: 1});
 
-            this.sizer.ox = this.sizer.attr("x");
-            this.sizer.oy = this.sizer.attr("y");
-            this.sizer.attr({opacity: 0.5});
-            
+
+
             if (this.poppable) {
+                this.sizer.ox = this.sizer.attr("x");
+                this.sizer.oy = this.sizer.attr("y");
+                this.sizer.attr({opacity: 0.5});
+
                 this.toFront();
                 this.sizer.toFront();
             }
@@ -25,12 +27,16 @@ $.widget('ui.canvasWidget', {
         that._move = function (dx, dy) {
             // move will be called with dx and dy
             this.attr({x: this.ox + dx, y: this.oy + dy});
-            this.sizer.attr({x: this.sizer.ox + dx, y: this.sizer.oy + dy});
+            if (this.poppable) {
+                this.sizer.attr({x: this.sizer.ox + dx, y: this.sizer.oy + dy});
+            }
         };
         that._up = function () {
             // restoring state
             this.attr({opacity: 1});
-            this.sizer.attr({opacity: 1});
+            if (this.poppable) {
+                this.sizer.attr({opacity: 1});
+            }
         };
 
         that._rstart = function () {
@@ -56,15 +62,13 @@ $.widget('ui.canvasWidget', {
         this._layers[layer].remove();
         this._layers[layer] = undefined;
     },
-    show: function() {
+    show: function () {
         this.element.show();
     },
-    hide: function() {
+    hide: function () {
         this.element.hide();
     },
     setImage: function (layer, url, x, y, ratio) {
-
-        console.log(layer, this._layers[layer]);
 
         if (this._layers[layer] !== undefined) {
             r = this._layers[layer];
@@ -81,7 +85,7 @@ $.widget('ui.canvasWidget', {
                     r.toFront();
                 }
             };
-            
+
             return;
         }
 
@@ -110,24 +114,43 @@ $.widget('ui.canvasWidget', {
 
             var ratios = new Array((max_h / this.height), (max_w / this.width));
             var poppable = (layer[0] != '@');
-            
+
             if (landscape) {
                 ratio = ratio * ratios[0];
             } else {
                 ratio = ratio * ratios[1];
             }
-            
+
             if (poppable) {
                 ratio = Math.min.apply(Math, ratios);
             }
-           
+
             var h = Math.round(ratio * this.height);
             var w = Math.round(ratio * this.width);
-            
+
             r = that._paper.image(url, x, y, w, h).attr({
                 stroke: "none",
                 cursor: "move"
             });
+
+
+            var imgd = ctx.getImageData(0, 0, 135, 135),
+                    pix = imgd.data,
+                    newColor = {r: 0, g: 0, b: 0, a: 0};
+
+            for (var i = 0, n = pix.length; i < n; i += 4) {
+                var r = pix[i],
+                        g = pix[i + 1],
+                        b = pix[i + 2];
+
+                if (r == 255 && g == 255 && b == 255) {
+                    // Change the white to the new color.
+                    pix[i] = newColor.r;
+                    pix[i + 1] = newColor.g;
+                    pix[i + 2] = newColor.b;
+                    pix[i + 3] = newColor.a;
+                }
+            }
 
             r.drag(that._move, that._start, that._up);
             r.poppable = poppable;

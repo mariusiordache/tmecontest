@@ -29,6 +29,7 @@
     <div class="panel-body">
         <ul class="items"></ul>
         <button id="moreResults" class="btn btn-default">next</button>
+         <div style="clear:both"></div>
     </div>
 </div>
 
@@ -49,6 +50,7 @@
         
         </ul>
         <img class="loader" src="/assets/tiny-loader.gif" />
+        <div style="clear:both"></div>
     </div>
 </script>
 

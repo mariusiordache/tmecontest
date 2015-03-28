@@ -55,6 +55,10 @@ $.widget('ui.canvasWidget', {
 
     },
     deleteImage: function (layer) {
+        if (!this._layers[layer]) {
+            return;
+        }
+        
         if (this._layers[layer].sizer !== undefined) {
             this._layers[layer].sizer.remove();
         }

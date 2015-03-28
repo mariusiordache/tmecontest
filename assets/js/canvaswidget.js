@@ -56,6 +56,12 @@ $.widget('ui.canvasWidget', {
         this._layers[layer].remove();
         this._layers[layer] = undefined;
     },
+    show: function() {
+        this.element.show();
+    },
+    hide: function() {
+        this.element.hide();
+    },
     setImage: function (layer, url, x, y, ratio) {
 
         console.log(layer, this._layers[layer]);
